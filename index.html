@@ -4,16 +4,21 @@
         <title>Spacetrip</title>
         <link href="assets/css/styles.css" rel="stylesheet">
 
+        <!-- Libs -->
         <script src="js/libs/yabble.js"></script>
         <script src="js/libs/game.min.js"></script>
+
+        <!-- Game -->
+        <script src="js/Main.js"></script>
+        <script src="js/Spacecraft.js"></script>
+
+        <!-- Main -->
         <script>
             require.setModuleRoot('./js');
-            require.run('Main');
+            require.run('spacetrip/main');
         </script>
-
     </head>
 
     <body>
-        <canvas id="main" width="640px" height="480px"></canvas>
     </body>
 </html>
