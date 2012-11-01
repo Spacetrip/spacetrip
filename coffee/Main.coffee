@@ -14,7 +14,6 @@ require.define 'spacetrip/main': (require, exports, module) ->
         display.setMode [800, 600]
 
         surface = display.getSurface()
-        surface.blit image.load 'assets/images/background.png'
 
         player = new Spacecraft surface.getSize()[0] / 2, surface.getSize()[1] / 2
 
@@ -23,17 +22,12 @@ require.define 'spacetrip/main': (require, exports, module) ->
         tick = (msDuration) ->
             event.get().forEach(controls.handle)
 
-            if controls.up
-                console.log 'Up ...'
-            else if controls.down
-                console.log 'Down ...'
-            else if controls.right
-                console.log 'Right ...'
-            else if controls.left
-                console.log 'Left ...'
-            else if controls.fire
-                console.log 'Firing ...'
+            player.angle = controls.getAngle()
 
+            # Update background
+            surface.blit image.load 'assets/images/background.png'
+
+            # Update player
             player.update msDuration
             player.draw surface
 

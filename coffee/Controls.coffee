@@ -34,4 +34,10 @@ require.define 'spacetrip/controls': (require, exports, module) ->
                 else if e.key is event.K_SPACE
                     @fire = false
 
+        getAngle: ->
+            if @up
+                Math.PI * 1.5
+            else if @down
+                Math.PI * 0.5
+
     exports.Controls = Controls
