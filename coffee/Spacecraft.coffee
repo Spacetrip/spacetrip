@@ -29,8 +29,7 @@ require.define 'spacetrip/spacecraft': (require, exports, module) ->
 
             @image = transform.rotate(@originalImage, @angle)
 
-            console.log "Speed: #{ @speed }"
-            console.log "Angle: #{ @angle }"
+            @_updateLogs()
 
         _updateControls: ->
             if @controls.right
@@ -50,5 +49,12 @@ require.define 'spacetrip/spacecraft': (require, exports, module) ->
 
                 if @speed < 0
                     @speed = 0
+
+        _updateLogs: ->
+            console.log "Speed: #{ @speed }"
+            console.log "Angle: #{ @angle }"
+
+            console.log "X: #{ @rect.x }"
+            console.log "Y: #{ @rect.y }"
 
     exports.Spacecraft = Spacecraft
