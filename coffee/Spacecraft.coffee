@@ -2,20 +2,53 @@ require.define 'spacetrip/spacecraft': (require, exports, module) ->
     gamejs = require 'gamejs'
     sprite = require 'gamejs/sprite'
     image = require 'gamejs/image'
+    transform = require 'gamejs/transform'
+    math = require 'gamejs/utils/math'
+
+    MAX_SPEED = 350
 
     class Spacecraft extends sprite.Sprite
-        constructor: (x, y) ->
+        constructor: (options) ->
             super
-            @angle = null
-            @speed = 200
-            @image = image.load 'assets/images/spacecraft.png'
-            @rect = new gamejs.Rect x - @image.getSize()[0] / 2, y
+
+            @angle = 0
+            @speed = 0
+
+            @image = @originalImage = image.load 'assets/images/spacecraft.png'
+            @rect = new gamejs.Rect options.x - @image.getSize()[0] / 2, options.y
+
+            @controls = options.controls
 
         update: (msDuration) ->
-            if @angle
-                @rect.moveIp [
-                    Math.cos(@angle) * @speed * (msDuration / 1000),
-                    Math.sin(@angle) * @speed * (msDuration / 1000)
-                ]
+            @_updateControls()
+
+            @rect.moveIp [
+                Math.sin(math.radians @angle) * @speed * (msDuration / 1000),
+                -Math.cos(math.radians @angle) * @speed * (msDuration / 1000)
+            ]
+
+            @image = transform.rotate(@originalImage, @angle)
+
+            console.log "Speed: #{ @speed }"
+            console.log "Angle: #{ @angle }"
+
+        _updateControls: ->
+            if @controls.right
+                @angle = math.normaliseDegrees @angle + 2.5
+
+            if @controls.left
+                @angle = math.normaliseDegrees @angle - 2.5
+
+            if @controls.up
+                @speed += 5
+
+                if @speed > MAX_SPEED
+                    @speed = MAX_SPEED
+
+            if @controls.down
+                @speed -= 10
+
+                if @speed < 0
+                    @speed = 0
 
     exports.Spacecraft = Spacecraft

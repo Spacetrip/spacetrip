@@ -15,14 +15,14 @@ require.define 'spacetrip/main': (require, exports, module) ->
 
         surface = display.getSurface()
 
-        player = new Spacecraft surface.getSize()[0] / 2, surface.getSize()[1] / 2
-
-        controls = new Controls
+        player = new Spacecraft {
+            x: surface.getSize()[0] / 2,
+            y: surface.getSize()[1] / 2,
+            controls: new Controls
+        }
 
         tick = (msDuration) ->
-            event.get().forEach(controls.handle)
-
-            player.angle = controls.getAngle()
+            event.get().forEach(player.controls.handle)
 
             # Update background
             surface.blit image.load 'assets/images/background.png'
