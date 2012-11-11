@@ -7,6 +7,7 @@ require.define 'spacetrip/main': (require, exports, module) ->
 
     Spacecraft = require('spacetrip/spacecraft').Spacecraft
     Controls = require('spacetrip/controls').Controls
+    Space = require('spacetrip/space').Space
 
     main = ->
         console.log 'Loading ...'
@@ -21,11 +22,14 @@ require.define 'spacetrip/main': (require, exports, module) ->
             controls: new Controls
         }
 
+        space = new Space
+
         tick = (msDuration) ->
             event.get().forEach(player.controls.handle)
 
             # Update background
-            surface.blit image.load 'assets/images/background.png'
+            space.update msDuration
+            space.draw surface
 
             # Update player
             player.update msDuration
